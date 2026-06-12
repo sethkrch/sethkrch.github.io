@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seth Krch — Development Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #07090e;
+      --surface: #0e1220;
+      --border:  #182030;
+      --muted:   #1e2d42;
+      --dim:     #3a5878;
+      --text:    #d0eaf8;
+      --accent:  #2a7abf;
+      --accent2: #4aa8e0;
+      --accent3: #80d0f8;
+      --purple:  #6655d4;
+      --purple2: #8b7ff0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GLOW ── */
+    .glow {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 30%, rgba(102,85,212,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 25% at 70% 60%, rgba(74,168,224,0.08) 0%, transparent 60%);
+    }
+
+    /* ── HOME PAGE ── */
+    #page-home {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .hero-name {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(52px, 10vw, 96px);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -3px;
+      line-height: 1;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--dim);
+      margin: 0 auto 48px;
+      opacity: 0.5;
+    }
+
+    /* ── TILES ── */
+    .tiles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .tile {
+      background: rgba(14,18,32,0.7);
+      border: 1px solid var(--border);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: background 0.15s, border-color 0.15s;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tile:hover {
+      background: rgba(24,32,48,0.9);
+      border-color: var(--dim);
+    }
+
+    .tile.featured {
+      border-color: var(--purple);
+      background: rgba(102,85,212,0.1);
+    }
+
+    .tile.featured:hover {
+      background: rgba(102,85,212,0.18);
+      border-color: var(--purple2);
+    }
+
+    .tile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .tile.featured .tile-icon {
+      background: rgba(102,85,212,0.3);
+    }
+
+    .tile:not(.featured) .tile-icon {
+      background: rgba(24,32,48,0.8);
+      border: 1px solid var(--border);
+    }
+
+    .tile-body { flex: 1; min-width: 0; }
+
+    .tile-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .tile-desc {
+      font-size: 12px;
+      color: var(--dim);
+      line-height: 1.4;
+    }
+
+    .tile-arrow {
+      color: var(--dim);
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }
+
+    .tile:hover .tile-arrow {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    /* ── INNER PAGES ── */
+    .page {
+      display: none;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    .page.active { display: block; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 48px;
+      transition: color 0.15s;
+    }
+
+    .back-btn:hover { color: var(--text); }
+
+    .page-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1.5px;
+      margin-bottom: 8px;
+    }
+
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+    }
+
+    .page-divider {
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple2), var(--accent2));
+      margin-bottom: 40px;
+    }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 16px 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── PROJECT CARDS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 18px;
+      transition: border-color 0.15s;
+    }
+
+    .card:hover { border-color: var(--dim); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      flex-shrink: 0;
+    }
+
+    .badge-done    { background: #071828; color: var(--accent3); border: 1px solid #0e2840; }
+    .badge-wip     { background: #0a1828; color: var(--accent2); border: 1px solid #0e2840; }
+    .badge-planned { background: #0e1220; color: var(--dim);     border: 1px solid var(--border); }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--dim);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+    }
+
+    /* ── SOURCE CODE PAGE ── */
+    .source-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .source-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.15s;
+      text-decoration: none;
+    }
+
+    .source-item:hover { border-color: var(--dim); }
+
+    .source-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      background: rgba(74,168,224,0.1);
+      border: 1px solid rgba(74,168,224,0.2);
+      padding: 4px 8px;
+      flex-shrink: 0;
+    }
+
+    .source-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .source-desc { font-size: 12px; color: var(--dim); }
+
+    .source-lang {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      flex-shrink: 0;
+    }
+
+    /* ── INFO PAGE ── */
+    .info-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 12px;
+    }
+
+    .info-block-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+
+    .info-block p {
+      font-size: 14px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+    .skill-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      background: rgba(74,168,224,0.08);
+      border: 1px solid rgba(74,168,224,0.2);
+      padding: 4px 10px;
+    }
+
+    /* ── STELIK ── */
+    .stelik-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-top: 24px;
+    }
+
+    .stelik-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stelik-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .stelik-bar-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+
+    #stelik-game {
+      padding: 28px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    #stelik-game h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    #stelik-game .subtitle {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .game-status {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .tries-left { color: var(--accent2); }
+    .tries-left.danger { color: #e05c5c; }
+
+    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+
+    #guess-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    #guess-input:focus { border-color: var(--accent); }
+    #guess-input:disabled { opacity: 0.4; }
+
+    .btn {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 10px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: var(--accent2); }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      width: 100%;
+      padding: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      margin-top: 4px;
+    }
+
+    .btn-ghost:hover { border-color: var(--dim); color: var(--text); }
+
+    #result-box {
+      padding: 14px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: none;
+    }
+
+    #result-box.win  { background: #071828; border: 1px solid #0e2840; color: var(--accent3); }
+    #result-box.lose { background: #071020; border: 1px solid #0e2035; color: #80d0f8; }
+
+    #history { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+
+    .history-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: var(--bg);
+      font-size: 13px;
+    }
+
+    .history-row .h-num { color: #fff; font-weight: 700; }
+    .history-row .h-fb  { color: var(--dim); }
+
+    @media (max-width: 560px) {
+      .tiles { grid-template-columns: 1fr; max-width: 340px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .stats-row { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      .page { padding: 32px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="glow"></div>
+
+<!-- ── HOME ── -->
+<div id="page-home">
+  <h1 class="hero-name">Seth Krch</h1>
+  <p class="hero-subtitle">Development Portfolio</p>
+  <div class="hero-divider"></div>
+
+  <div class="tiles">
+    <div class="tile featured" onclick="showPage('projects')">
+      <div class="tile-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#a87fe0"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="tile-body"><div class="tile-title">View Projects</div></div>
+      <span class="tile-arrow">→</span>
+    </div>
+
+    <div class="tile" onclick="showPage('source')">
+      <div class="tile-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#4aa8e0"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div class="tile-body"><div class="tile-title">View Source Codes</div></div>
+      <span class="tile-arrow">→</span>
+    </div>
+
+    <div class="tile" onclick="openGitHub()">
+      <div class="tile-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:#4aa8e0"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      </div>
+      <div class="tile-body"><div class="tile-title">GitHub</div></div>
+      <span class="tile-arrow">→</span>
+    </div>
+
+    <div class="tile" onclick="showPage('info')">
+      <div class="tile-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#4aa8e0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+      </div>
+      <div class="tile-body"><div class="tile-title">Info</div></div>
+      <span class="tile-arrow">→</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROJECTS PAGE ── -->
+<div id="page-projects" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-eyebrow">Portfolio</div>
+  <h2 class="page-title">Projects</h2>
+  <div class="page-divider"></div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Projects</div></div>
+    <div class="stat"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Complete</div></div>
+    <div class="stat"><div class="stat-num" id="stat-wip">0</div><div class="stat-label">In Progress</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Modules done</div></div>
+  </div>
+
+  <div class="projects-grid" id="projects-grid"></div>
+
+  <div style="margin-top:32px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;">Playable — Stelik</div>
+    <div class="stelik-wrap">
+      <div class="stelik-bar">
+        <div class="stelik-dot" style="background:#6655d4"></div>
+        <div class="stelik-dot" style="background:#4aa8e0"></div>
+        <div class="stelik-dot" style="background:#80d0f8"></div>
+        <span class="stelik-bar-title">stelik.py — running</span>
+      </div>
+      <div id="stelik-game">
+        <h2>STELIK</h2>
+        <p class="subtitle">Number guessing game · 1–100</p>
+        <div class="game-status">
+          <span>Range: 1 – 100</span>
+          <span class="tries-left" id="tries-display">7 tries left</span>
+        </div>
+        <div class="input-row">
+          <input id="guess-input" type="number" min="1" max="100" placeholder="Enter a number…" />
+          <button class="btn" id="guess-btn">Guess</button>
+        </div>
+        <div id="result-box"></div>
+        <div id="history"></div>
+        <button class="btn-ghost" id="reset-btn">New game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SOURCE CODE PAGE ── -->
+<div id="page-source" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-eyebrow">Code</div>
+  <h2 class="page-title">Source</h2>
+  <div class="page-divider"></div>
+
+  <div class="source-list" id="source-list"></div>
+</div>
+
+<!-- ── INFO PAGE ── -->
+<div id="page-info" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-eyebrow">About</div>
+  <h2 class="page-title">Info</h2>
+  <div class="page-divider"></div>
+
+  <div class="info-block">
+    <p>Too busy coding, will update this later.</p>
+  </div>
+</div>
+
+<script>
+  // ── NAVIGATION ──
+  function showPage(id) {
+    document.getElementById('page-home').style.display = id === 'home' ? 'flex' : 'none';
+    ['projects','source','info'].forEach(p => {
+      const el = document.getElementById('page-' + p);
+      if (el) el.style.display = p === id ? 'block' : 'none';
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function openGitHub() {
+    window.open('https://github.com/', '_blank');
+  }
+
+  showPage('home');
+
+  // ── PROJECTS DATA ──
+  const projects = [
+    { title: "Stelik", description: "Number guessing game with input validation, loops, and helper functions.", status: "wip", tags: ["loops","input validation","functions"], file: "stelik.py" },
+    { title: "Budget Tracker", description: "CLI tool for tracking income and expenses. Built while learning dictionaries and file I/O.", status: "complete", tags: ["dictionaries","CLI","json"], file: "budget_tracker.py" },
+    { title: "Steam Beast", description: "Steam & Deadlock API explorer with a Watch Mode that scouts opponents mid-game.", status: "wip", tags: ["APIs","json","import"], file: "steam_beast.py" },
+    { title: "Python Glossary", description: "Personal reference doc covering every concept I've learned — functions, methods, classes.", status: "wip", tags: ["reference","docs"], file: "glossary.md" },
+    { title: "picoCTF Challenges", description: "Working through cybersecurity challenges to build web and systems knowledge.", status: "wip", tags: ["cybersecurity","web","CTF"], file: null },
+    { title: "This Website", description: "Portfolio site tracking my Python progress. Started vibe-coded, rebuilding it myself.", status: "wip", tags: ["HTML","CSS","JavaScript"], file: "index.html" },
+  ];
+
+  // ── RENDER PROJECTS ──
+  const grid = document.getElementById('projects-grid');
+  projects.forEach(p => {
+    const [label, cls] = p.status === 'complete' ? ['Done','badge-done'] : p.status === 'wip' ? ['In Progress','badge-wip'] : ['Planned','badge-planned'];
+    const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+    grid.innerHTML += `<div class="card"><div class="card-top"><div class="card-title">${p.title}</div><span class="badge ${cls}">${label}</span></div><p class="card-desc">${p.description}</p><div class="card-tags">${tags}</div></div>`;
+  });
+
+  document.getElementById('stat-total').textContent = projects.length;
+  document.getElementById('stat-done').textContent  = projects.filter(p => p.status === 'complete').length;
+  document.getElementById('stat-wip').textContent   = projects.filter(p => p.status === 'wip').length;
+
+  // ── RENDER SOURCE ──
+  const sourceList = document.getElementById('source-list');
+  const langs = { py: 'Python', html: 'HTML', md: 'Markdown', js: 'JavaScript' };
+  projects.filter(p => p.file).forEach(p => {
+    const ext = p.file.split('.').pop();
+    const lang = langs[ext] || ext.toUpperCase();
+    sourceList.innerHTML += `
+      <div class="source-item">
+        <span class="source-icon">.${ext}</span>
+        <div>
+          <div class="source-name">${p.file}</div>
+          <div class="source-desc">${p.title}</div>
+        </div>
+        <span class="source-lang">${lang}</span>
+      </div>`;
+  });
+
+  // ── STELIK GAME ──
+  const MAX_TRIES = 7;
+  let secret, tries, gameOver;
+
+  function newGame() {
+    secret = Math.floor(Math.random() * 100) + 1;
+    tries = 0; gameOver = false;
+    document.getElementById('guess-input').value = '';
+    document.getElementById('guess-input').disabled = false;
+    document.getElementById('guess-btn').disabled = false;
+    document.getElementById('result-box').style.display = 'none';
+    document.getElementById('result-box').className = '';
+    document.getElementById('history').innerHTML = '';
+    updateTries();
+  }
+
+  function updateTries() {
+    const left = MAX_TRIES - tries;
+    const el = document.getElementById('tries-display');
+    el.textContent = `${left} tr${left === 1 ? 'y' : 'ies'} left`;
+    el.className = 'tries-left' + (left <= 2 ? ' danger' : '');
+  }
+
+  function submitGuess() {
+    if (gameOver) return;
+    const input = document.getElementById('guess-input');
+    const num = parseInt(input.value);
+    if (isNaN(num) || num < 1 || num > 100) { input.focus(); return; }
+    tries++; input.value = '';
+    let fb = '';
+    if (num === secret) { fb = '🎯 Correct!'; endGame(true); }
+    else if (tries >= MAX_TRIES) { fb = num < secret ? '📉 Too low' : '📈 Too high'; endGame(false); }
+    else { fb = num < secret ? '📉 Too low' : '📈 Too high'; }
+    updateTries();
+    const row = document.createElement('div');
+    row.className = 'history-row';
+    row.innerHTML = `<span class="h-num">${num}</span><span class="h-fb">${fb}</span>`;
+    document.getElementById('history').prepend(row);
+  }
+
+  function endGame(won) {
+    gameOver = true;
+    document.getElementById('guess-input').disabled = true;
+    document.getElementById('guess-btn').disabled = true;
+    const box = document.getElementById('result-box');
+    box.style.display = 'block';
+    box.className = won ? 'win' : 'lose';
+    box.textContent = won ? `Solved in ${tries} ${tries === 1 ? 'try' : 'tries'}.` : `Out of tries. The number was ${secret}.`;
+  }
+
+  document.getElementById('guess-btn').addEventListener('click', submitGuess);
+  document.getElementById('guess-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitGuess(); });
+  document.getElementById('reset-btn').addEventListener('click', newGame);
+  newGame();
+</script>
+</body>
+</html>
