@@ -3,23 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seth Krch — Development Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title>Seth Krch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #07090e;
-      --surface: #0e1220;
-      --border:  #182030;
-      --muted:   #1e2d42;
-      --dim:     #3a5878;
-      --text:    #d0eaf8;
-      --accent:  #2a7abf;
-      --accent2: #4aa8e0;
-      --accent3: #80d0f8;
-      --purple:  #6655d4;
-      --purple2: #8b7ff0;
+      --bg: #0c0b0a;
+      --surface: #131210;
+      --border: #222018;
+      --dim: #4a4640;
+      --muted: #2a2820;
+      --text: #e8e4dc;
+      --accent: #7c6fcd;
+      --accent2: #a094e8;
+      --warm: #c8a96a;
     }
 
     html { scroll-behavior: smooth; }
@@ -28,437 +26,263 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* ── GLOW ── */
-    .glow {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse 55% 45% at 50% 30%, rgba(102,85,212,0.18) 0%, transparent 65%),
-        radial-gradient(ellipse 30% 25% at 70% 60%, rgba(74,168,224,0.08) 0%, transparent 60%);
-    }
-
-    /* ── HOME PAGE ── */
-    #page-home {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
-    }
-
-    .hero-name {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(52px, 10vw, 96px);
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -3px;
-      line-height: 1;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .hero-subtitle {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--dim);
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .hero-divider {
-      width: 40px;
-      height: 1px;
-      background: var(--dim);
-      margin: 0 auto 48px;
-      opacity: 0.5;
-    }
-
-    /* ── TILES ── */
-    .tiles {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .tile {
-      background: rgba(14,18,32,0.7);
-      border: 1px solid var(--border);
-      padding: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: background 0.15s, border-color 0.15s;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tile:hover {
-      background: rgba(24,32,48,0.9);
-      border-color: var(--dim);
-    }
-
-    .tile.featured {
-      border-color: var(--purple);
-      background: rgba(102,85,212,0.1);
-    }
-
-    .tile.featured:hover {
-      background: rgba(102,85,212,0.18);
-      border-color: var(--purple2);
-    }
-
-    .tile-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 16px;
-    }
-
-    .tile.featured .tile-icon {
-      background: rgba(102,85,212,0.3);
-    }
-
-    .tile:not(.featured) .tile-icon {
-      background: rgba(24,32,48,0.8);
-      border: 1px solid var(--border);
-    }
-
-    .tile-body { flex: 1; min-width: 0; }
-
-    .tile-title {
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 2px;
-    }
-
-    .tile-desc {
-      font-size: 12px;
-      color: var(--dim);
-      line-height: 1.4;
-    }
-
-    .tile-arrow {
-      color: var(--dim);
-      font-size: 16px;
-      flex-shrink: 0;
-      transition: color 0.15s, transform 0.15s;
-    }
-
-    .tile:hover .tile-arrow {
-      color: var(--text);
-      transform: translateX(2px);
-    }
-
-    /* ── INNER PAGES ── */
-    .page {
-      display: none;
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      max-width: 800px;
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 680px;
       margin: 0 auto;
-      padding: 48px 32px 80px;
+      padding: 0 28px;
     }
 
-    .page.active { display: block; }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--dim);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-bottom: 48px;
-      transition: color 0.15s;
+    /* ── HEADER ── */
+    header {
+      padding: 64px 0 0;
     }
 
-    .back-btn:hover { color: var(--text); }
-
-    .page-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(28px, 5vw, 48px);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -1.5px;
-      margin-bottom: 8px;
+    .name {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
     }
 
-    .page-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+    .name em {
+      font-style: italic;
       color: var(--accent2);
-      margin-bottom: 16px;
     }
 
-    .page-divider {
-      width: 48px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--purple2), var(--accent2));
-      margin-bottom: 40px;
-    }
-
-    /* ── STATS ── */
-    .stats-row {
-      display: flex;
-      gap: 0;
-      border: 1px solid var(--border);
+    .tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
       margin-bottom: 32px;
     }
 
-    .stat {
-      flex: 1;
-      padding: 16px 20px;
-      border-right: 1px solid var(--border);
-    }
-
-    .stat:last-child { border-right: none; }
-
-    .stat-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 24px;
-      font-weight: 800;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ── PROJECT CARDS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 18px;
-      transition: border-color 0.15s;
-    }
-
-    .card:hover { border-color: var(--dim); }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 7px;
-      flex-shrink: 0;
-    }
-
-    .badge-done    { background: #071828; color: var(--accent3); border: 1px solid #0e2840; }
-    .badge-wip     { background: #0a1828; color: var(--accent2); border: 1px solid #0e2840; }
-    .badge-planned { background: #0e1220; color: var(--dim);     border: 1px solid var(--border); }
-
-    .card-desc {
-      font-size: 12px;
+    .header-desc {
+      font-size: 16px;
       color: var(--dim);
-      line-height: 1.5;
-      margin-bottom: 12px;
+      max-width: 420px;
+      line-height: 1.65;
+      border-left: 2px solid var(--muted);
+      padding-left: 16px;
+      margin-bottom: 48px;
     }
 
-    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 2px 7px;
-    }
-
-    /* ── SOURCE CODE PAGE ── */
-    .source-list { display: flex; flex-direction: column; gap: 8px; }
-
-    .source-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 16px 20px;
+    /* ── NAV LINKS ── */
+    .nav-links {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: border-color 0.15s;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 72px;
+    }
+
+    .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding: 14px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-right: 1px solid var(--border);
+      transition: color 0.15s, background 0.15s;
       text-decoration: none;
     }
 
-    .source-item:hover { border-color: var(--dim); }
+    .nav-link:last-child { border-right: none; }
+    .nav-link:hover { color: var(--text); background: var(--muted); }
+    .nav-link.active { color: var(--accent2); }
 
-    .source-icon {
+    /* ── SECTIONS ── */
+    .section { margin-bottom: 72px; }
+
+    .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--accent2);
-      background: rgba(74,168,224,0.1);
-      border: 1px solid rgba(74,168,224,0.2);
-      padding: 4px 8px;
-      flex-shrink: 0;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .source-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 2px;
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
-    .source-desc { font-size: 12px; color: var(--dim); }
+    /* ── PROJECT LIST ── */
+    .project-list { display: flex; flex-direction: column; gap: 0; }
 
-    .source-lang {
-      margin-left: auto;
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .project-row:first-child { border-top: 1px solid var(--border); }
+
+    .project-row:hover .project-name { color: var(--accent2); }
+
+    .project-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      color: var(--text);
+      transition: color 0.15s;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .project-tags {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       color: var(--dim);
+      letter-spacing: 0.05em;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       flex-shrink: 0;
     }
 
-    /* ── INFO PAGE ── */
-    .info-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 24px;
-      margin-bottom: 12px;
-    }
+    .dot-wip     { background: var(--accent); }
+    .dot-done    { background: var(--warm); }
+    .dot-planned { background: var(--muted); border: 1px solid var(--border); }
 
-    .info-block-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 12px;
-    }
-
-    .info-block p {
-      font-size: 14px;
-      color: var(--dim);
-      line-height: 1.7;
-    }
-
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-
-    .skill-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--accent2);
-      background: rgba(74,168,224,0.08);
-      border: 1px solid rgba(74,168,224,0.2);
-      padding: 4px 10px;
-    }
-
-    /* ── STELIK ── */
-    .stelik-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      margin-top: 24px;
-    }
-
-    .stelik-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: var(--bg);
+    /* ── PROJECT EXPAND ── */
+    .project-detail {
+      display: none;
+      padding: 16px 0 20px;
       border-bottom: 1px solid var(--border);
     }
 
-    .stelik-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .project-detail.open { display: block; }
 
-    .stelik-bar-title {
+    .project-detail p {
+      font-size: 14px;
+      color: var(--dim);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    /* ── NOW SECTION ── */
+    .now-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .now-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .now-marker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      padding-top: 3px;
+      flex-shrink: 0;
+      width: 16px;
+    }
+
+    .now-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .now-text span {
+      color: var(--dim);
+      font-size: 13px;
+    }
+
+    /* ── STELIK ── */
+    .stelik-container {
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .stelik-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stelik-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stelik-dots { display: flex; gap: 5px; }
+    .sdot { width: 9px; height: 9px; border-radius: 50%; }
+
+    .stelik-filename {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--muted);
-      margin-left: 4px;
+      color: var(--dim);
     }
 
-    #stelik-game {
-      padding: 28px;
-      font-family: 'JetBrains Mono', monospace;
-    }
+    .stelik-body { padding: 24px; }
 
-    #stelik-game h2 {
+    .stelik-title {
+      font-family: 'Instrument Serif', serif;
       font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: #fff;
-      margin-bottom: 4px;
+      color: var(--text);
+      margin-bottom: 2px;
     }
 
-    #stelik-game .subtitle {
-      font-size: 11px;
-      letter-spacing: 0.15em;
+    .stelik-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .game-status {
+    .game-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 14px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
+      color: var(--dim);
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
       margin-bottom: 16px;
     }
 
-    .tries-left { color: var(--accent2); }
-    .tries-left.danger { color: #e05c5c; }
+    .tries { color: var(--accent2); }
+    .tries.danger { color: #e06060; }
 
-    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .guess-row { display: flex; gap: 8px; margin-bottom: 14px; }
 
     #guess-input {
       flex: 1;
@@ -467,302 +291,321 @@
       color: var(--text);
       padding: 10px 14px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
       transition: border-color 0.15s;
     }
 
     #guess-input:focus { border-color: var(--accent); }
-    #guess-input:disabled { opacity: 0.4; }
+    #guess-input:disabled { opacity: 0.35; }
 
-    .btn {
+    .guess-btn {
       background: var(--accent);
       border: none;
       color: #fff;
       padding: 10px 18px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       cursor: pointer;
       transition: background 0.15s;
     }
 
-    .btn:hover { background: var(--accent2); }
-    .btn:disabled { opacity: 0.4; cursor: default; }
+    .guess-btn:hover { background: var(--accent2); }
+    .guess-btn:disabled { opacity: 0.35; cursor: default; }
 
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--dim);
-      width: 100%;
-      padding: 10px;
+    #result-msg {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-      margin-top: 4px;
-    }
-
-    .btn-ghost:hover { border-color: var(--dim); color: var(--text); }
-
-    #result-box {
-      padding: 14px;
-      margin-bottom: 14px;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
       display: none;
     }
 
-    #result-box.win  { background: #071828; border: 1px solid #0e2840; color: var(--accent3); }
-    #result-box.lose { background: #071020; border: 1px solid #0e2035; color: #80d0f8; }
+    #result-msg.win  { background: var(--muted); color: var(--warm); border: 1px solid var(--border); }
+    #result-msg.lose { background: var(--muted); color: var(--dim); border: 1px solid var(--border); }
 
-    #history { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+    .history { display: flex; flex-direction: column; gap: 3px; margin-bottom: 12px; }
 
-    .history-row {
+    .h-row {
       display: flex;
       justify-content: space-between;
-      padding: 7px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 6px 10px;
       background: var(--bg);
-      font-size: 13px;
     }
 
-    .history-row .h-num { color: #fff; font-weight: 700; }
-    .history-row .h-fb  { color: var(--dim); }
+    .h-num { color: var(--text); }
+    .h-fb  { color: var(--dim); }
+
+    .reset-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      background: none;
+      border: 1px solid var(--border);
+      width: 100%;
+      padding: 9px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .reset-btn:hover { color: var(--text); border-color: var(--dim); }
+
+    /* ── INFO PAGE ── */
+    .info-text {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      color: var(--dim);
+      font-style: italic;
+      line-height: 1.6;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    footer a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color 0.15s;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    /* ── PAGE VISIBILITY ── */
+    .page { display: none; }
+    .page.active { display: block; }
 
     @media (max-width: 560px) {
-      .tiles { grid-template-columns: 1fr; max-width: 340px; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .stats-row { flex-direction: column; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border); }
-      .stat:last-child { border-bottom: none; }
-      .page { padding: 32px 20px 60px; }
+      .name { font-size: 42px; }
+      .nav-link { padding: 12px 14px; font-size: 10px; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-<div class="glow"></div>
+<div class="container">
 
-<!-- ── HOME ── -->
-<div id="page-home">
-  <h1 class="hero-name">Seth Krch</h1>
-  <p class="hero-subtitle">Development Portfolio</p>
-  <div class="hero-divider"></div>
+  <header>
+    <h1 class="name">Seth <em>Krch</em></h1>
+    <p class="tagline">learning in public · python · cybersecurity</p>
+    <p class="header-desc">Self-taught developer. Building real things to learn how they work. This site tracks the progress.</p>
+  </header>
 
-  <div class="tiles">
-    <div class="tile featured" onclick="showPage('projects')">
-      <div class="tile-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#a87fe0"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </div>
-      <div class="tile-body"><div class="tile-title">View Projects</div></div>
-      <span class="tile-arrow">→</span>
-    </div>
+  <nav class="nav-links">
+    <button class="nav-link active" onclick="showPage('projects')">Projects</button>
+    <button class="nav-link" onclick="showPage('now')">Now</button>
+    <button class="nav-link" onclick="showPage('play')">Play</button>
+    <button class="nav-link" onclick="showPage('info')">Info</button>
+    <a class="nav-link" href="https://github.com/sethkrch" target="_blank">GitHub ↗</a>
+  </nav>
 
-    <div class="tile" onclick="showPage('source')">
-      <div class="tile-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#4aa8e0"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      </div>
-      <div class="tile-body"><div class="tile-title">View Source Codes</div></div>
-      <span class="tile-arrow">→</span>
-    </div>
-
-    <div class="tile" onclick="openGitHub()">
-      <div class="tile-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:#4aa8e0"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-      </div>
-      <div class="tile-body"><div class="tile-title">GitHub</div></div>
-      <span class="tile-arrow">→</span>
-    </div>
-
-    <div class="tile" onclick="showPage('info')">
-      <div class="tile-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#4aa8e0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-      </div>
-      <div class="tile-body"><div class="tile-title">Info</div></div>
-      <span class="tile-arrow">→</span>
+  <!-- PROJECTS -->
+  <div id="page-projects" class="page active">
+    <div class="section">
+      <div class="section-label">Projects</div>
+      <div class="project-list" id="project-list"></div>
     </div>
   </div>
-</div>
 
-<!-- ── PROJECTS PAGE ── -->
-<div id="page-projects" class="page">
-  <button class="back-btn" onclick="showPage('home')">← Back</button>
-  <div class="page-eyebrow">Portfolio</div>
-  <h2 class="page-title">Projects</h2>
-  <div class="page-divider"></div>
-
-  <div class="stats-row">
-    <div class="stat"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Projects</div></div>
-    <div class="stat"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Complete</div></div>
-    <div class="stat"><div class="stat-num" id="stat-wip">0</div><div class="stat-label">In Progress</div></div>
-    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Modules done</div></div>
-  </div>
-
-  <div class="projects-grid" id="projects-grid"></div>
-
-  <div style="margin-top:32px">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;">Playable — Stelik</div>
-    <div class="stelik-wrap">
-      <div class="stelik-bar">
-        <div class="stelik-dot" style="background:#6655d4"></div>
-        <div class="stelik-dot" style="background:#4aa8e0"></div>
-        <div class="stelik-dot" style="background:#80d0f8"></div>
-        <span class="stelik-bar-title">stelik.py — running</span>
-      </div>
-      <div id="stelik-game">
-        <h2>STELIK</h2>
-        <p class="subtitle">Number guessing game · 1–100</p>
-        <div class="game-status">
-          <span>Range: 1 – 100</span>
-          <span class="tries-left" id="tries-display">7 tries left</span>
+  <!-- NOW -->
+  <div id="page-now" class="page">
+    <div class="section">
+      <div class="section-label">What I'm doing now</div>
+      <div class="now-list">
+        <div class="now-item">
+          <span class="now-marker">→</span>
+          <span class="now-text">Learning Python through real projects <span>— not courses, just building things</span></span>
         </div>
-        <div class="input-row">
-          <input id="guess-input" type="number" min="1" max="100" placeholder="Enter a number…" />
-          <button class="btn" id="guess-btn">Guess</button>
+        <div class="now-item">
+          <span class="now-marker">→</span>
+          <span class="now-text">Working through picoCTF <span>— module 5, focused on web challenges</span></span>
         </div>
-        <div id="result-box"></div>
-        <div id="history"></div>
-        <button class="btn-ghost" id="reset-btn">New game</button>
+        <div class="now-item">
+          <span class="now-marker">→</span>
+          <span class="now-text">Experimenting with Pygame <span>— trying to get a character moving on screen</span></span>
+        </div>
+        <div class="now-item">
+          <span class="now-marker">→</span>
+          <span class="now-text">Building this site <span>— rewriting it myself as I learn HTML and JS</span></span>
+        </div>
+        <div class="now-item">
+          <span class="now-marker">→</span>
+          <span class="now-text">Playing Deadlock <span>— when I'm not coding</span></span>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ── SOURCE CODE PAGE ── -->
-<div id="page-source" class="page">
-  <button class="back-btn" onclick="showPage('home')">← Back</button>
-  <div class="page-eyebrow">Code</div>
-  <h2 class="page-title">Source</h2>
-  <div class="page-divider"></div>
-
-  <div class="source-list" id="source-list"></div>
-</div>
-
-<!-- ── INFO PAGE ── -->
-<div id="page-info" class="page">
-  <button class="back-btn" onclick="showPage('home')">← Back</button>
-  <div class="page-eyebrow">About</div>
-  <h2 class="page-title">Info</h2>
-  <div class="page-divider"></div>
-
-  <div class="info-block">
-    <p>Too busy coding, will update this later.</p>
+  <!-- PLAY -->
+  <div id="page-play" class="page">
+    <div class="section">
+      <div class="section-label">Stelik — number guessing game</div>
+      <div class="stelik-container">
+        <div class="stelik-header">
+          <div class="stelik-header-left">
+            <div class="stelik-dots">
+              <div class="sdot" style="background:#7c6fcd"></div>
+              <div class="sdot" style="background:#a094e8"></div>
+              <div class="sdot" style="background:#c8a96a"></div>
+            </div>
+            <span class="stelik-filename">stelik.py</span>
+          </div>
+        </div>
+        <div class="stelik-body">
+          <div class="stelik-title">Stelik</div>
+          <div class="stelik-sub">Guess the number · 1 to 100 · 7 tries</div>
+          <div class="game-row">
+            <span>Range: 1–100</span>
+            <span class="tries" id="tries-display">7 tries left</span>
+          </div>
+          <div class="guess-row">
+            <input id="guess-input" type="number" min="1" max="100" placeholder="your guess…" />
+            <button class="guess-btn" id="guess-btn">→</button>
+          </div>
+          <div id="result-msg"></div>
+          <div class="history" id="history"></div>
+          <button class="reset-btn" id="reset-btn">new game</button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- INFO -->
+  <div id="page-info" class="page">
+    <div class="section">
+      <div class="section-label">Info</div>
+      <p class="info-text">Too busy coding,<br>will update this later.</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>Seth Krch — <span id="footer-year"></span></span>
+    <a href="https://github.com/sethkrch" target="_blank">github.com/sethkrch</a>
+  </footer>
+
 </div>
 
 <script>
-  // ── NAVIGATION ──
-  function showPage(id) {
-    document.getElementById('page-home').style.display = id === 'home' ? 'flex' : 'none';
-    ['projects','source','info'].forEach(p => {
-      const el = document.getElementById('page-' + p);
-      if (el) el.style.display = p === id ? 'block' : 'none';
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function openGitHub() {
-    window.open('https://github.com/', '_blank');
-  }
-
-  showPage('home');
-
-  // ── PROJECTS DATA ──
+  // ── PROJECTS ──
   const projects = [
-    { title: "Stelik", description: "Number guessing game with input validation, loops, and helper functions.", status: "wip", tags: ["loops","input validation","functions"], file: "stelik.py" },
-    { title: "Budget Tracker", description: "CLI tool for tracking income and expenses. Built while learning dictionaries and file I/O.", status: "complete", tags: ["dictionaries","CLI","json"], file: "budget_tracker.py" },
-    { title: "Steam Beast", description: "Steam & Deadlock API explorer with a Watch Mode that scouts opponents mid-game.", status: "wip", tags: ["APIs","json","import"], file: "steam_beast.py" },
-    { title: "Python Glossary", description: "Personal reference doc covering every concept I've learned — functions, methods, classes.", status: "wip", tags: ["reference","docs"], file: "glossary.md" },
-    { title: "picoCTF Challenges", description: "Working through cybersecurity challenges to build web and systems knowledge.", status: "wip", tags: ["cybersecurity","web","CTF"], file: null },
-    { title: "This Website", description: "Portfolio site tracking my Python progress. Started vibe-coded, rebuilding it myself.", status: "wip", tags: ["HTML","CSS","JavaScript"], file: "index.html" },
+    { name: "Stelik", desc: "A number guessing game. My first real project — loops, input validation, helper functions, the works.", status: "wip", tags: "python · cli" },
+    { name: "Budget Tracker", desc: "CLI tool for tracking income and expenses with persistent JSON storage. Built while learning dictionaries.", status: "complete", tags: "python · json · cli" },
+    { name: "Steam Beast", desc: "Pulls live Deadlock match data from the Steam API and scouts opponents mid-game. Actually useful.", status: "wip", tags: "python · api" },
+    { name: "Python Glossary", desc: "My personal reference doc. Every concept I've learned written in my own words so it actually sticks.", status: "wip", tags: "docs" },
+    { name: "picoCTF Challenges", desc: "Working through cybersecurity challenges. On module 5. Googling is part of the skill.", status: "wip", tags: "cybersecurity · ctf" },
+    { name: "This Site", desc: "Started as vibe-coded output. Rebuilding it myself piece by piece as I learn HTML and JS.", status: "wip", tags: "html · css · js" },
   ];
 
-  // ── RENDER PROJECTS ──
-  const grid = document.getElementById('projects-grid');
-  projects.forEach(p => {
-    const [label, cls] = p.status === 'complete' ? ['Done','badge-done'] : p.status === 'wip' ? ['In Progress','badge-wip'] : ['Planned','badge-planned'];
-    const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
-    grid.innerHTML += `<div class="card"><div class="card-top"><div class="card-title">${p.title}</div><span class="badge ${cls}">${label}</span></div><p class="card-desc">${p.description}</p><div class="card-tags">${tags}</div></div>`;
+  const list = document.getElementById('project-list');
+  projects.forEach((p, i) => {
+    const dotCls = p.status === 'complete' ? 'dot-done' : p.status === 'wip' ? 'dot-wip' : 'dot-planned';
+    const row = document.createElement('div');
+    row.className = 'project-row';
+    row.innerHTML = `<span class="project-name">${p.name}</span>
+      <div class="project-meta"><span class="project-tags">${p.tags}</span><div class="dot ${dotCls}"></div></div>`;
+    const detail = document.createElement('div');
+    detail.className = 'project-detail';
+    detail.innerHTML = `<p>${p.desc}</p>`;
+    row.addEventListener('click', () => {
+      const isOpen = detail.classList.contains('open');
+      document.querySelectorAll('.project-detail').forEach(d => d.classList.remove('open'));
+      if (!isOpen) detail.classList.add('open');
+    });
+    list.appendChild(row);
+    list.appendChild(detail);
   });
 
-  document.getElementById('stat-total').textContent = projects.length;
-  document.getElementById('stat-done').textContent  = projects.filter(p => p.status === 'complete').length;
-  document.getElementById('stat-wip').textContent   = projects.filter(p => p.status === 'wip').length;
+  // ── NAVIGATION ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
 
-  // ── RENDER SOURCE ──
-  const sourceList = document.getElementById('source-list');
-  const langs = { py: 'Python', html: 'HTML', md: 'Markdown', js: 'JavaScript' };
-  projects.filter(p => p.file).forEach(p => {
-    const ext = p.file.split('.').pop();
-    const lang = langs[ext] || ext.toUpperCase();
-    sourceList.innerHTML += `
-      <div class="source-item">
-        <span class="source-icon">.${ext}</span>
-        <div>
-          <div class="source-name">${p.file}</div>
-          <div class="source-desc">${p.title}</div>
-        </div>
-        <span class="source-lang">${lang}</span>
-      </div>`;
-  });
-
-  // ── STELIK GAME ──
-  const MAX_TRIES = 7;
-  let secret, tries, gameOver;
+  // ── STELIK ──
+  const MAX = 7;
+  let secret, tries, over;
 
   function newGame() {
     secret = Math.floor(Math.random() * 100) + 1;
-    tries = 0; gameOver = false;
-    document.getElementById('guess-input').value = '';
-    document.getElementById('guess-input').disabled = false;
+    tries = 0; over = false;
+    const gi = document.getElementById('guess-input');
+    gi.value = ''; gi.disabled = false;
     document.getElementById('guess-btn').disabled = false;
-    document.getElementById('result-box').style.display = 'none';
-    document.getElementById('result-box').className = '';
+    document.getElementById('result-msg').style.display = 'none';
+    document.getElementById('result-msg').className = '';
     document.getElementById('history').innerHTML = '';
     updateTries();
   }
 
   function updateTries() {
-    const left = MAX_TRIES - tries;
+    const left = MAX - tries;
     const el = document.getElementById('tries-display');
-    el.textContent = `${left} tr${left === 1 ? 'y' : 'ies'} left`;
-    el.className = 'tries-left' + (left <= 2 ? ' danger' : '');
+    el.textContent = left + ' tr' + (left === 1 ? 'y' : 'ies') + ' left';
+    el.className = 'tries' + (left <= 2 ? ' danger' : '');
   }
 
   function submitGuess() {
-    if (gameOver) return;
+    if (over) return;
     const input = document.getElementById('guess-input');
     const num = parseInt(input.value);
     if (isNaN(num) || num < 1 || num > 100) { input.focus(); return; }
     tries++; input.value = '';
     let fb = '';
-    if (num === secret) { fb = '🎯 Correct!'; endGame(true); }
-    else if (tries >= MAX_TRIES) { fb = num < secret ? '📉 Too low' : '📈 Too high'; endGame(false); }
-    else { fb = num < secret ? '📉 Too low' : '📈 Too high'; }
+    if (num === secret) { fb = 'correct'; endGame(true); }
+    else if (tries >= MAX) { fb = num < secret ? 'too low' : 'too high'; endGame(false); }
+    else { fb = num < secret ? 'too low' : 'too high'; }
     updateTries();
     const row = document.createElement('div');
-    row.className = 'history-row';
+    row.className = 'h-row';
     row.innerHTML = `<span class="h-num">${num}</span><span class="h-fb">${fb}</span>`;
     document.getElementById('history').prepend(row);
   }
 
   function endGame(won) {
-    gameOver = true;
+    over = true;
     document.getElementById('guess-input').disabled = true;
     document.getElementById('guess-btn').disabled = true;
-    const box = document.getElementById('result-box');
+    const box = document.getElementById('result-msg');
     box.style.display = 'block';
     box.className = won ? 'win' : 'lose';
-    box.textContent = won ? `Solved in ${tries} ${tries === 1 ? 'try' : 'tries'}.` : `Out of tries. The number was ${secret}.`;
+    box.textContent = won
+      ? 'got it in ' + tries + (tries === 1 ? ' try.' : ' tries.')
+      : 'out of tries. it was ' + secret + '.';
   }
 
   document.getElementById('guess-btn').addEventListener('click', submitGuess);
   document.getElementById('guess-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitGuess(); });
   document.getElementById('reset-btn').addEventListener('click', newGame);
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
   newGame();
 </script>
+
 </body>
 </html>
